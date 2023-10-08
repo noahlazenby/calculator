@@ -16,6 +16,9 @@ function multiply(a, b) {
 };
 
 function divide(a, b) {
+    if (b === 0) {
+        return "Seriously... You know you can't divide by 0"
+    } 
     return a/b
 };
 
@@ -36,8 +39,8 @@ function operate(firstNum, operator, secondNum) {
     }
 };
 //initialize value to display in display box 
-let firstInputtedNumber;
-let secondInputtedNumber;
+let firstInputtedNumber = '';
+let secondInputtedNumber = '';
 let inputtedOperator;
 let solution;
 
@@ -49,11 +52,17 @@ const clearButton = document.querySelector('#clear');
 const displayBox = document.querySelector('#display');
 numberButtons.forEach((number) => {
     number.addEventListener("click", () => {
-        if (firstInputtedNumber == null) {
-            firstInputtedNumber = number.value;
-            displayNumber(firstInputtedNumber);
+        if (solution == null) {
+            if (inputtedOperator == null) {
+                firstInputtedNumber += number.value;
+                displayNumber(firstInputtedNumber);
+            } else {
+                secondInputtedNumber += number.value;
+                displayNumber(secondInputtedNumber);
+            }
         } else {
-            secondInputtedNumber = number.value;
+            firstInputtedNumber = solution;
+            secondInputtedNumber += number.value;
             displayNumber(secondInputtedNumber);
         }
     });
@@ -68,11 +77,14 @@ operatorButtons.forEach((operator) => {
 equalsButton.addEventListener("click", () => {
     solution = operate(firstInputtedNumber, inputtedOperator, secondInputtedNumber);
     displaySolution(solution);
+    inputtedOperator = null;
+    firstInputtedNumber = '';
+    secondInputtedNumber = '';
 });
 
 clearButton.addEventListener("click", () => {
-    firstInputtedNumber = null;
-    secondInputtedNumber = null;
+    firstInputtedNumber = '';
+    secondInputtedNumber = '';
     inputtedOperator = null;
     solution = null;
     displayBox.textContent = "0";
