@@ -21,6 +21,8 @@ function divide(a, b) {
 
 //handling user inputted operations
 function operate(firstNum, operator, secondNum) {
+    firstNum = Number(firstNum);
+    secondNum = Number(secondNum);
     if (operator == '+') {
         return add(firstNum, secondNum)
     } else if (operator == '-') {
@@ -34,19 +36,47 @@ function operate(firstNum, operator, secondNum) {
     }
 };
 //initialize value to display in display box 
-let inputtedValue;
+let firstInputtedNumber;
+let secondInputtedNumber;
+let inputtedOperator;
+let solution;
 
 //query display box and number buttons and set-up click function for numbers
 const numberButtons = Array.from(document.querySelectorAll('.number'));
 const operatorButtons = Array.from(document.querySelectorAll('.operator'));
+const equalsButton = document.querySelector('#equals');
+const clearButton = document.querySelector('#clear');
 const displayBox = document.querySelector('#display');
 numberButtons.forEach((number) => {
     number.addEventListener("click", () => {
-    inputtedValue = number.value;
-    displayNumber(inputtedValue);
+        if (firstInputtedNumber == null) {
+            firstInputtedNumber = number.value;
+            displayNumber(firstInputtedNumber);
+        } else {
+            secondInputtedNumber = number.value;
+            displayNumber(secondInputtedNumber);
+        }
     });
 });
 
+operatorButtons.forEach((operator) => {
+    operator.addEventListener("click", () => {
+        inputtedOperator = operator.value;
+    });
+});
+
+equalsButton.addEventListener("click", () => {
+    solution = operate(firstInputtedNumber, inputtedOperator, secondInputtedNumber);
+    displaySolution(solution);
+});
+
+clearButton.addEventListener("click", () => {
+    firstInputtedNumber = null;
+    secondInputtedNumber = null;
+    inputtedOperator = null;
+    solution = null;
+    displayBox.textContent = "0";
+});
 
 function displayNumber(value) {
     displayBox.textContent = value;
