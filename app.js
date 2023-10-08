@@ -48,12 +48,14 @@ let solution;
 const numberButtons = Array.from(document.querySelectorAll('.number'));
 const operatorButtons = Array.from(document.querySelectorAll('.operator'));
 const equalsButton = document.querySelector('#equals');
+const decimalButton = document.querySelector('#decimal');
 const clearButton = document.querySelector('#clear');
 const displayBox = document.querySelector('#display');
 numberButtons.forEach((number) => {
     number.addEventListener("click", () => {
         if (solution == null) {
             if (inputtedOperator == null) {
+                if (number.value == ".") { decimalButton.disabled = true; }
                 firstInputtedNumber += number.value;
                 displayNumber(firstInputtedNumber);
             } else {
@@ -80,6 +82,7 @@ equalsButton.addEventListener("click", () => {
     inputtedOperator = null;
     firstInputtedNumber = '';
     secondInputtedNumber = '';
+    decimalButton.disabled = false;
 });
 
 clearButton.addEventListener("click", () => {
@@ -88,6 +91,7 @@ clearButton.addEventListener("click", () => {
     inputtedOperator = null;
     solution = null;
     displayBox.textContent = "0";
+    decimalButton.disabled = false;
 });
 
 function displayNumber(value) {
